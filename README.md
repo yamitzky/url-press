@@ -1,22 +1,26 @@
-# url-express
+# URL Press - URL Shortener for Team
 
-> Nuxt.js project
+![demo](https://media.giphy.com/media/xULW8PFcF2A7zAAOQw/giphy.gif)
+
+This library is to generate shortened URL, like bit.ly, tinyurl.cc, goo.gl, etc.
+
+It was made to be used by "team", which means a group of honest people who know each other.
+Therefore, it might be "vulnerable" to attackers and should be deployed to a private and protected network.
+
+## Feature
+
+- Super simple GUI
+- Named URL and randomized URL
+- Updating existing URL
+- DynamoDB backend
+- [Docker support](https://hub.docker.com/r/yamitzky/url-press/) 🐳
 
 ## Build Setup
 
-``` bash
-# install dependencies
-$ npm install # Or yarn install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm start
-
-# generate static project
-$ npm run generate
+```
+git clone git@github.com:yamitzky/url-press.git
+cd url-press
+docker-compose up
 ```
 
-For detailed explanation on how things work, checkout the [Nuxt.js docs](https://github.com/nuxt/nuxt.js).
+You might have to create DynamoDB table before starting up the service.
