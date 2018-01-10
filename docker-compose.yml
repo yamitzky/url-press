@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  node:
+    build: frontend
+    command: sh -c "yarn && yarn dev"
+    volumes:
+      - ./frontend:/usr/src/app
+      - node-volume:/usr/src/app/node_modules
+    environment:
+      - API_URL=http://api:8080/api
+      - API_URL_BROWSER=http://localhost:8080/api
+    ports:
+      - 3000:3000
+    depends_on:
+      - api
+
+  api:
+    build: api
+    volumes:
+      - ./api:/usr/src/app
+    environment:
+      - DEBUG=1
+      - AWS_DEFAULT_REGION=local
+      - AWS_ACCESS_KEY_ID=dummy
+      - AWS_SECRET_ACCESS_KEY=dummy
+      - DYNAMO_ENDPOINT_URL=http://dynamo:8000
+    ports:
+      - 8080:8080
+    depends_on:
+      - dynamo
+
+  dynamo:
+    image: cnadiminti/dynamodb-local
+
+volumes:
+  node-volume:
