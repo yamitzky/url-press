@@ -26,12 +26,12 @@ def enable_cors():
     response.headers['Access-Control-Allow-Headers'] = 'Origin, Accept, Content-Type'
 
 
-@route('/<:re:.*>', method='OPTIONS')
-def options_handler(path=None):
+@route('/<:re:.+>', method='OPTIONS')
+def options_handler():
     return
 
 
-@route('/<slug>')
+@route('/<slug:re:.+>')
 def redirect_url(slug):
     item = table.get_item(Key={'id': slug})
     if item.get('Item', {}).get('url'):
@@ -44,7 +44,7 @@ def redirect_url(slug):
 def generate():
     if request.method == 'POST':
         item = {
-            'id': urllib.parse.quote_plus(request.json['id']),
+            'id': request.json['id'],
             'url': request.json['url'],
             'timestamp': int(datetime.datetime.now().timestamp())
         }

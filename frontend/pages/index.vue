@@ -27,7 +27,6 @@
               label="Custom URL"
               :prefix="`${origin}/`"
               v-model="customURL"
-              :hint="customURL === encodedCustomURL ? '' : `True URL will be ${origin}/${encodedCustomURL}`"
               persistent-hint
               required
               v-validate="'required'"
@@ -65,11 +64,6 @@ export default {
       origin: process.browser ? location.origin : 'http://.....',
       lastOperation: null,
       alert: false
-    }
-  },
-  computed: {
-    encodedCustomURL () {
-      return encodeURIComponent(this.customURL)
     }
   },
   methods: {
