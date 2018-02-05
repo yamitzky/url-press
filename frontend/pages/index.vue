@@ -27,6 +27,7 @@
               label="Custom URL"
               :prefix="`${origin}/`"
               v-model="customURL"
+              @keyup="onChangeCustomURL"
               persistent-hint
               required
               v-validate="'required'"
@@ -54,9 +55,14 @@ export default {
   data () {
     let customURL = ''
     if (process.browser) {
-      const randomBytes = new Uint8Array(16)
-      window.crypto.getRandomValues(randomBytes)
-      customURL = bs58.encode(randomBytes).slice(0, 8)
+      const hash = decodeURIComponent(location.hash).slice(1)
+      if (hash) {
+        customURL = hash
+      } else {
+        const randomBytes = new Uint8Array(16)
+        window.crypto.getRandomValues(randomBytes)
+        customURL = bs58.encode(randomBytes).slice(0, 8)
+      }
     }
     return {
       customURL,
@@ -67,6 +73,10 @@ export default {
     }
   },
   methods: {
+    async fetchURL (id) {
+      const { data: { url } } = await this.$axios.get(`/urls/${id}`)
+      return url
+    },
     async shorten () {
       const valid = await this.$validator.validateAll()
       if (valid) {
@@ -88,6 +98,15 @@ export default {
         }
         this.alert = true
       }
+    },
+    onChangeCustomURL () {
+      location.replace(`#${encodeURIComponent(this.customURL)}`)
+    }
+  },
+  async mounted () {
+    if (this.customURL) {
+      const url = await this.fetchURL(this.customURL)
+      this.url = url
     }
   }
 }

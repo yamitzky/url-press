@@ -1,6 +1,5 @@
 import datetime
 import os
-import urllib.parse
 
 from bottle import route, run, request, abort, response, redirect, hook
 import boto3
@@ -33,9 +32,19 @@ def options_handler():
 
 @route('/<slug:re:.+>')
 def redirect_url(slug):
-    item = table.get_item(Key={'id': slug})
-    if item.get('Item', {}).get('url'):
-        redirect(item['Item']['url'])
+    api = slug.startswith('api/urls/')
+    if api:
+        slug = slug[9:]
+    item = table.get_item(Key={'id': slug}).get('Item', {})
+    if item:
+        if api:
+            return {
+                'id': item['id'],
+                'url': item['url'],
+                'timestamp': int(item['timestamp'])
+            }
+        else:
+            redirect(item['url'])
     else:
         abort(404, f"Not found: {slug}")
 
