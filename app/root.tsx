@@ -1,11 +1,12 @@
+import { NextUIProvider } from "@nextui-org/react"
 import {
   Links,
   Meta,
   Outlet,
   Scripts,
-  ScrollRestoration,
-} from "@remix-run/react";
-import "./tailwind.css";
+  ScrollRestoration
+} from "@remix-run/react"
+import "./tailwind.css"
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -17,14 +18,18 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
+        <NextUIProvider>
+          <main className="font-sans text-foreground bg-background">
+            {children}
+          </main>
+          <ScrollRestoration />
+          <Scripts />
+        </NextUIProvider>
       </body>
     </html>
-  );
+  )
 }
 
 export default function App() {
-  return <Outlet />;
+  return <Outlet />
 }
