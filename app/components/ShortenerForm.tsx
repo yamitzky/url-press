@@ -1,24 +1,26 @@
 import { useForm } from "@rvf/remix"
-import { useEffect, useState } from "react"
 import { FormInput, InputPrefix } from "~/components/FormInput"
 import { SubmitButton } from "~/components/SubmitButton"
 import { validator, type FormData } from "~/lib/form"
+import { useOrigin } from "~/lib/hooks"
 
 type Props = {
   defaultValues: FormData
+  onSuccess?: () => void
 }
 
-export const ShortenerForm: React.FC<Props> = ({ defaultValues }) => {
-  const [origin, setOrigin] = useState("")
-
-  useEffect(() => {
-    setOrigin(window.location.origin)
-  }, [])
-
+export const ShortenerForm: React.FC<Props> = ({
+  defaultValues,
+  onSuccess
+}) => {
+  const origin = useOrigin()
   const form = useForm({
     method: "post",
     validator,
-    defaultValues
+    defaultValues,
+    onSubmitSuccess(handleSubmitResponse) {
+      onSuccess?.()
+    }
   })
 
   return (
