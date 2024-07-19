@@ -9,7 +9,7 @@
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
-    "lint": "bunx @biomejs/biome check --write app",
+    "lint": "pnpx @biomejs/biome check --write app",
     "start": "remix-serve ./build/server/index.js",
     "typecheck": "tsc",
     "prepublishOnly": "remix vite:build"
@@ -33,7 +33,8 @@
     "isbot": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "tailwind-merge": "^2.4.0"
+    "tailwind-merge": "^2.4.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.2",
