@@ -1,6 +1,6 @@
 {
   "name": "url-press",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "URL shortener for teams",
   "private": false,
   "sideEffects": false,
