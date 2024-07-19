@@ -1,22 +1,34 @@
 {
   "name": "url-press",
-  "private": true,
+  "version": "1.0.0",
+  "description": "URL shortener for teams",
+  "private": false,
   "sideEffects": false,
+  "type": "module",
+  "main": "build/server/index.js",
   "scripts": {
     "build": "remix vite:build",
     "dev": "remix vite:dev",
-    "lint": "eslint --ignore-path .gitignore --cache --cache-location ./node_modules/.cache/eslint .",
+    "lint": "bunx @biomejs/biome check --write app",
     "start": "remix-serve ./build/server/index.js",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "prepublishOnly": "remix vite:build"
+  },
+  "keywords": ["url-shortener", "team", "dynamodb"],
+  "author": "Mitsuki Ogasahara",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yamitzky/url-press.git"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.616.0",
     "@nextui-org/react": "^2.4.2",
     "@remix-run/node": "^2.10.3",
     "@remix-run/react": "^2.10.3",
     "@remix-run/serve": "^2.10.3",
     "@rvf/remix": "^0.0.10",
     "@rvf/zod": "^0.0.10",
-    "aws-sdk": "^2.1659.0",
     "framer-motion": "^11.3.6",
     "isbot": "^4.1.0",
     "react": "^18.2.0",

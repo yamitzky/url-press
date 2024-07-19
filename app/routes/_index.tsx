@@ -1,25 +1,20 @@
 import { Link } from "@nextui-org/react"
 import {
+  json,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
-  type MetaFunction,
-  json
+  type MetaFunction
 } from "@remix-run/node"
 import { useActionData, useFetcher, useLocation } from "@remix-run/react"
 import { isValidationErrorResponse, validationError } from "@rvf/remix"
-import AWS from "aws-sdk"
 import { useCallback, useEffect, useState } from "react"
 import { Alert } from "~/components/Alert"
 import { Header } from "~/components/Header"
 import { Main } from "~/components/Main"
 import { ShortenerForm } from "~/components/ShortenerForm"
+import { Database } from "~/lib/database"
 import { validator } from "~/lib/form"
 import { generateRandomString } from "~/lib/hooks"
-
-const dynamoDb = new AWS.DynamoDB.DocumentClient({
-  region: process.env.AWS_DEFAULT_REGION || "us-east-1"
-})
-const TABLE_NAME = process.env.DYNAMO_TABLE_NAME || "url-press"
 
 export const meta: MetaFunction = () => {
   return [{ title: "URL Press - URL Shortener for Team" }]
@@ -30,15 +25,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const id = url.searchParams.get("id")
 
   if (id) {
-    const params = {
-      TableName: TABLE_NAME,
-      Key: { id }
-    }
-
     try {
-      const result = await dynamoDb.get(params).promise()
-      if (result.Item) {
-        return json({ id, url: result.Item.url })
+      const database = new Database()
+      const result = await database.get(id)
+      if (result) {
+        return json({ id, url: result.url })
       }
     } catch (error) {
       console.error("Error fetching from DynamoDB:", error)
@@ -55,13 +46,9 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
   const { id, url } = data.data
 
-  const params = {
-    TableName: TABLE_NAME,
-    Item: { id, url, timestamp: Date.now() / 1000 }
-  }
-
   try {
-    await dynamoDb.put(params).promise()
+    const database = new Database()
+    await database.put({ id, url })
     return json({ id, url })
   } catch (error) {
     console.error("Error saving to DynamoDB:", error)

@@ -9,23 +9,25 @@ export default {
   theme: {
     extend: {}
   },
-  darkMode: 'class',
-  plugins: [nextui({
-    themes: {
-      light: {
-        colors: {
-          primary: {
-            DEFAULT: '#0E8AAA'
+  darkMode: "class",
+  plugins: [
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            primary: {
+              DEFAULT: "#0E8AAA"
+            }
           }
-        }
-      },
-      dark: {
-        colors: {
-          primary: {
-            DEFAULT: '#053B48'
+        },
+        dark: {
+          colors: {
+            primary: {
+              DEFAULT: "#053B48"
+            }
           }
         }
       }
-    }
-  })]
+    })
+  ]
 } satisfies Config
