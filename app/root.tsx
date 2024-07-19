@@ -1,4 +1,5 @@
 import { NextUIProvider } from "@nextui-org/react"
+import type { LinksFunction } from "@remix-run/node"
 import {
   Links,
   Meta,
@@ -7,6 +8,16 @@ import {
   ScrollRestoration
 } from "@remix-run/react"
 import "./tailwind.css"
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: "icon",
+      href: "/favicon.ico",
+      type: "image/x-icon"
+    }
+  ]
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
