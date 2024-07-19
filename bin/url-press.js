@@ -1,11 +1,14 @@
 #!/usr/bin/env node
 import { createRequestHandler } from "@remix-run/express"
 import express from "express"
+import path from 'path'
+
+const __dirname = new URL(".", import.meta.url).pathname
+const buildDir = path.join(__dirname, "..", "build")
 
 const app = express()
-app.use(express.static("../build/client"))
-
-const build = await import("../build/server/index.js")
+app.use(express.static(path.join(buildDir, 'client')))
+const build = await import(path.join(buildDir, 'server', 'index.js'))
 
 app.all("*", createRequestHandler({ build }))
 
