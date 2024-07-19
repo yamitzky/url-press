@@ -4,7 +4,7 @@ import express from "express"
 const app = express()
 app.use(express.static("build/client"))
 
-const build = await import("./build/server/index.js")
+const build = await import("../build/server/index.js")
 
 app.all("*", createRequestHandler({ build }))
 
