@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { createRequestHandler } from "@remix-run/express"
 import express from "express"
 
