@@ -1,5 +1,6 @@
-import type { Config } from "tailwindcss"
-const { nextui } = require("@nextui-org/react")
+import type { Config } from "tailwindcss";
+const { nextui } = require("@nextui-org/theme");
+
 
 export default {
   content: [

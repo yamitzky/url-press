@@ -1,4 +1,4 @@
-import { Button, type ButtonProps } from "@nextui-org/react"
+import { Button, type ButtonProps } from "@nextui-org/button"
 
 type Props = ButtonProps
 

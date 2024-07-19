@@ -1,4 +1,4 @@
-import { NextUIProvider } from "@nextui-org/react"
+import { NextUIProvider } from "@nextui-org/system"
 import type { LinksFunction } from "@remix-run/node"
 import {
   Links,

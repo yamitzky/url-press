@@ -1,4 +1,4 @@
-import { Navbar, NavbarBrand } from "@nextui-org/react"
+import { Navbar, NavbarBrand } from "@nextui-org/navbar"
 import { twMerge } from "tailwind-merge"
 
 export const Header = ({ className }: { className?: string }) => {
