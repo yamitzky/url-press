@@ -1,40 +1,27 @@
-# Welcome to Remix!
+# URL Press - URL Shortener for Team
 
-- 📖 [Remix docs](https://remix.run/docs)
+![demo](https://media.giphy.com/media/xULW8PFcF2A7zAAOQw/giphy.gif)
 
-## Development
+This library is to generate shortened URL, like bit.ly, tinyurl.cc, goo.gl, etc.
 
-Run the dev server:
+It was made to be used by "team", which means a group of honest people who know
+each other. Therefore, it might be "vulnerable" to attackers and should be
+deployed to a private and protected network.
 
-```shellscript
-npm run dev
+## Feature
+
+- Super simple GUI
+- Named URL and randomized URL
+- Updating existing URL
+- DynamoDB backend
+
+## Build Setup
+
+```
+git clone git@github.com:yamitzky/url-press.git
+cd url-press
+bun install
+bun dev
 ```
 
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever css framework you prefer. See the [Vite docs on css](https://vitejs.dev/guide/features.html#css) for more information.
+You might have to create DynamoDB table before starting up the service.
