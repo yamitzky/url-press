@@ -2,7 +2,7 @@ import { Form } from "@remix-run/react"
 import { useForm } from "@rvf/remix"
 import { FormInput, InputPrefix } from "~/components/FormInput"
 import { SubmitButton } from "~/components/SubmitButton"
-import { validator, type FormData } from "~/lib/form"
+import { type FormData, validator } from "~/lib/form"
 import { useOrigin } from "~/lib/hooks"
 
 type Props = {
