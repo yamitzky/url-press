@@ -1,6 +1,6 @@
 {
   "name": "url-press",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "URL shortener for teams",
   "private": false,
   "sideEffects": false,
@@ -17,11 +17,7 @@
     "typecheck": "tsc",
     "prepublishOnly": "remix vite:build"
   },
-  "keywords": [
-    "url-shortener",
-    "team",
-    "dynamodb"
-  ],
+  "keywords": ["url-shortener", "team", "dynamodb"],
   "author": "Mitsuki Ogasahara",
   "license": "MIT",
   "repository": {
