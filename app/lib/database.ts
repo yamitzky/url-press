@@ -12,9 +12,20 @@ export class Database {
     tableName: string
 
     constructor() {
-        this.client = new DynamoDBClient({
+        const config: any = {
             region: process.env.AWS_DEFAULT_REGION || "us-east-1"
-        })
+        }
+
+        // Support for local DynamoDB
+        if (process.env.DYNAMODB_ENDPOINT) {
+            config.endpoint = process.env.DYNAMODB_ENDPOINT
+            config.credentials = {
+                accessKeyId: 'LOCAL',
+                secretAccessKey: 'LOCAL'
+            }
+        }
+
+        this.client = new DynamoDBClient(config)
         this.tableName = process.env.DYNAMO_TABLE_NAME || "url-press"
     }
 

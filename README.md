@@ -55,14 +55,30 @@ urlPress.getOriginalURL('custom-alias')
 
 To set up the project for development:
 
-```bash
-git clone https://github.com/yamitzky/url-press.git
-cd url-press
-npm install
-npm run dev
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yamitzky/url-press.git
+   cd url-press
+   ```
 
-Note: You'll need to set up a DynamoDB table before running the service.
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file in the root directory with the following content:
+   ```
+   AWS_DEFAULT_REGION=your-aws-region
+   DYNAMO_TABLE_NAME=your-dynamodb-table-name
+   ```
+
+4. Start the development server:
+   ```bash
+   pnpm run dev
+   ```
+
+Note: You'll need to set up a DynamoDB table before running the service. Make sure you have AWS credentials configured on your machine.
 
 ## Contributing
 
