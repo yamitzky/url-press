@@ -4,17 +4,26 @@ import {
   type ActionFunctionArgs,
   type MetaFunction
 } from "@remix-run/node"
-import { useActionData, useLocation } from "@remix-run/react"
+import { useActionData, useFetcher, useLocation } from "@remix-run/react"
 import { isValidationErrorResponse, validationError } from "@rvf/remix"
-import { useCallback } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Alert } from "~/components/Alert"
 import { Header } from "~/components/Header"
 import { ShortenerForm } from "~/components/ShortenerForm"
 import { validator } from "~/lib/form"
-import { useRandomID } from "~/lib/hooks"
+import { generateRandomString } from "~/lib/hooks"
 
 export const meta: MetaFunction = () => {
   return [{ title: "URL Press - URL Shortener for Team" }]
+}
+
+export const loader = async ({ request }: ActionFunctionArgs) => {
+  const url = new URL(request.url)
+  const id = url.searchParams.get("id")
+  return json({
+    id,
+    url: "https://yamitzky.dev/"
+  })
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -31,8 +40,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function Index() {
   const data = useActionData<typeof action>()
-  const randomId = useRandomID()
   const location = useLocation()
+  const fetcher = useFetcher<typeof loader>()
 
   const handleSuccess = useCallback(() => {
     if (data && !isValidationErrorResponse(data)) {
@@ -41,6 +50,24 @@ export default function Index() {
     }
   }, [data])
 
+  const [id, setId] = useState("")
+  useEffect(() => {
+    if (id || typeof window === "undefined") return
+
+    if (location.hash) {
+      const id = location.hash.slice(1)
+      const formData = new FormData()
+      formData.append("id", id)
+      fetcher.submit(formData)
+      setId(id)
+    } else {
+      const id = generateRandomString(8)
+      setId(id)
+      window.history.replaceState(null, "", `/#${id}`)
+    }
+  }, [id, location.hash, fetcher])
+  const url = fetcher.data?.url || ""
+
   return (
     <div>
       <Header />
@@ -48,9 +75,10 @@ export default function Index() {
         <Card className="p-4">
           <CardBody className="space-y-4">
             <ShortenerForm
+              key={`${id}${url}`}
               defaultValues={{
-                id: location.hash ? location.hash.slice(1) : randomId,
-                url: ""
+                id,
+                url
               }}
               onSuccess={handleSuccess}
             />

@@ -1,3 +1,4 @@
+import { Form } from "@remix-run/react"
 import { useForm } from "@rvf/remix"
 import { FormInput, InputPrefix } from "~/components/FormInput"
 import { SubmitButton } from "~/components/SubmitButton"
@@ -24,7 +25,7 @@ export const ShortenerForm: React.FC<Props> = ({
   })
 
   return (
-    <form {...form.getFormProps()}>
+    <Form {...form.getFormProps()}>
       <div className="flex items-center space-x-4">
         <FormInput
           name="url"
@@ -44,6 +45,6 @@ export const ShortenerForm: React.FC<Props> = ({
         isRequired
         startContent={<InputPrefix>{origin}/</InputPrefix>}
       />
-    </form>
+    </Form>
   )
 }
