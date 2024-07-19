@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, json, redirect } from "@remix-run/node"
+import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import AWS from "aws-sdk"
 import { Alert } from "~/components/Alert"
