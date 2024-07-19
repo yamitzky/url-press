@@ -18,7 +18,7 @@ export const ShortenerForm: React.FC<Props> = ({
     method: "post",
     validator,
     defaultValues,
-    onSubmitSuccess(handleSubmitResponse) {
+    onSubmitSuccess() {
       onSuccess?.()
     }
   })

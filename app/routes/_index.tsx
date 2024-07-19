@@ -6,6 +6,7 @@ import {
 } from "@remix-run/node"
 import { useActionData, useLocation } from "@remix-run/react"
 import { isValidationErrorResponse, validationError } from "@rvf/remix"
+import { useCallback } from "react"
 import { Alert } from "~/components/Alert"
 import { Header } from "~/components/Header"
 import { ShortenerForm } from "~/components/ShortenerForm"
@@ -33,6 +34,13 @@ export default function Index() {
   const randomId = useRandomID()
   const location = useLocation()
 
+  const handleSuccess = useCallback(() => {
+    if (data && !isValidationErrorResponse(data)) {
+      navigator.clipboard.writeText(`${origin}/${data.id}`)
+      window.history.replaceState(null, "", `/#${data.id}`)
+    }
+  }, [data])
+
   return (
     <div>
       <Header />
@@ -44,11 +52,7 @@ export default function Index() {
                 id: location.hash ? location.hash.slice(1) : randomId,
                 url: ""
               }}
-              onSuccess={() =>
-                data &&
-                !isValidationErrorResponse(data) &&
-                navigator.clipboard.writeText(`${origin}/${data.id}`)
-              }
+              onSuccess={handleSuccess}
             />
             {!isValidationErrorResponse(data) && data && (
               <Alert type="success">
