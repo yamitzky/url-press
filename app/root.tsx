@@ -30,9 +30,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <NextUIProvider>
-          <main className="font-sans text-foreground bg-background">
+          <div className="font-sans text-foreground bg-background">
             {children}
-          </main>
+          </div>
           <ScrollRestoration />
           <Scripts />
         </NextUIProvider>

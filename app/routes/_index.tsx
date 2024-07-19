@@ -1,4 +1,4 @@
-import { Card, CardBody, Link } from "@nextui-org/react"
+import { Link } from "@nextui-org/react"
 import {
   json,
   type ActionFunctionArgs,
@@ -11,6 +11,7 @@ import AWS from "aws-sdk"
 import { useCallback, useEffect, useState } from "react"
 import { Alert } from "~/components/Alert"
 import { Header } from "~/components/Header"
+import { Main } from "~/components/Main"
 import { ShortenerForm } from "~/components/ShortenerForm"
 import { validator } from "~/lib/form"
 import { generateRandomString } from "~/lib/hooks"
@@ -110,32 +111,28 @@ export default function Index() {
   return (
     <div>
       <Header />
-      <div className="h-screen max-w-[640px] space-y-6 mx-auto flex flex-col justify-center">
-        <Card className="p-4">
-          <CardBody className="space-y-4">
-            <ShortenerForm
-              key={`${currentData.id}${currentData.url}`}
-              defaultValues={currentData}
-              onSuccess={handleSuccess}
-            />
-            {!isValidationErrorResponse(submitData) && submitData && (
-              <Alert type="success">
-                <p>
-                  Copied{" "}
-                  <Link href={`${origin}/${submitData.id}`}>
-                    {origin}/{submitData.id}
-                  </Link>{" "}
-                  to the clipboard!
-                </p>
-                <p className="text-sm">
-                  It will be redirected to{" "}
-                  <Link href={submitData.url}>{submitData.url}</Link>
-                </p>
-              </Alert>
-            )}
-          </CardBody>
-        </Card>
-      </div>
+      <Main>
+        <ShortenerForm
+          key={`${currentData.id}${currentData.url}`}
+          defaultValues={currentData}
+          onSuccess={handleSuccess}
+        />
+        {!isValidationErrorResponse(submitData) && submitData && (
+          <Alert type="success">
+            <p>
+              Copied{" "}
+              <Link href={`${origin}/${submitData.id}`}>
+                {origin}/{submitData.id}
+              </Link>{" "}
+              to the clipboard!
+            </p>
+            <p className="text-sm">
+              It will be redirected to{" "}
+              <Link href={submitData.url}>{submitData.url}</Link>
+            </p>
+          </Alert>
+        )}
+      </Main>
     </div>
   )
 }
