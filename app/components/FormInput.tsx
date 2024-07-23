@@ -1,5 +1,5 @@
 import { Input, type InputProps } from "@nextui-org/input"
-import { useField, type FormScope } from "@rvf/remix"
+import { type FormScope, useField } from "@rvf/remix"
 import { forwardRef } from "react"
 import { twMerge } from "tailwind-merge"
 

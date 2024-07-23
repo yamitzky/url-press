@@ -1,9 +1,9 @@
 import { Link } from "@nextui-org/link"
 import {
-  json,
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
-  type MetaFunction
+  type MetaFunction,
+  json
 } from "@remix-run/node"
 import { useActionData, useFetcher, useLocation } from "@remix-run/react"
 import { isValidationErrorResponse, validationError } from "@rvf/remix"
@@ -32,12 +32,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
         return json({ id, url: result.url })
       }
     } catch (error) {
-      console.error("Error fetching from DynamoDB:", error)
-      return json({ id, url: "", error }, { status: 500 })
+      if (error instanceof Error) {
+        console.error("Error fetching from DynamoDB:", error)
+        return json({ id, url: "", error: error.message }, { status: 500 })
+      }
     }
   }
 
-  return json({ id, url: "" })
+  return json({ id, url: "", error: null })
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -49,10 +51,12 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   try {
     const database = new Database()
     await database.put({ id, url })
-    return json({ id, url })
+    return json({ id, url, error: null })
   } catch (error) {
-    console.error("Error saving to DynamoDB:", error)
-    return json({ id, url, error: "Failed to save URL" }, { status: 500 })
+    if (error instanceof Error) {
+      console.error("Error saving to DynamoDB:", error)
+      return json({ id, url, error: error.message }, { status: 500 })
+    }
   }
 }
 
@@ -104,21 +108,25 @@ export default function Index() {
           defaultValues={currentData}
           onSuccess={handleSuccess}
         />
-        {!isValidationErrorResponse(submitData) && submitData && (
-          <Alert type="success">
-            <p>
-              Copied{" "}
-              <Link href={`${origin}/${submitData.id}`}>
-                {origin}/{submitData.id}
-              </Link>{" "}
-              to the clipboard!
-            </p>
-            <p className="text-sm">
-              It will be redirected to{" "}
-              <Link href={submitData.url}>{submitData.url}</Link>
-            </p>
-          </Alert>
-        )}
+        {!isValidationErrorResponse(submitData) &&
+          submitData &&
+          (submitData.error ? (
+            <Alert type="error">{submitData.error}</Alert>
+          ) : (
+            <Alert type="success">
+              <p>
+                Copied{" "}
+                <Link href={`${origin}/${submitData.id}`}>
+                  {origin}/{submitData.id}
+                </Link>{" "}
+                to the clipboard!
+              </p>
+              <p className="text-sm">
+                It will be redirected to{" "}
+                <Link href={submitData.url}>{submitData.url}</Link>
+              </p>
+            </Alert>
+          ))}
       </Main>
     </div>
   )

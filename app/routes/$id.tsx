@@ -1,4 +1,4 @@
-import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node"
+import { type LoaderFunctionArgs, json, redirect } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { Alert } from "~/components/Alert"
 import { Header } from "~/components/Header"
@@ -21,10 +21,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
     return redirect(`/#${id}`)
   } catch (error) {
     console.error("Error fetching from DynamoDB:", error)
-    return json(
-      { id, url: "", error: (error as Error).message },
-      { status: 500 }
-    )
+    if (error instanceof Error) {
+      return json({ id, url: "", error: error.message }, { status: 500 })
+    }
   }
 }
 
